@@ -40,7 +40,7 @@ The following environment ids are currently available:
 - `msgr-test-v2`
 - `msgr-test-se-v2`
 
-`v1, v2` represent stages 1 and 2 respectively, `sc, mc` are the single and multi-combination training games respectively. `train` samples from both `sc` and `mc` games. `val` are the validation games and features the same movement dynamics as those in `train`. `test` games feature new movement combinations. `test-se` is the state-estimation version of the test games that feature the same movement dynamics as those in `train`. For more details refer to the [paper](https://openreview.net/pdf?id=udbMZR1cKE6).
+`v1, v2` represent stages 1 and 2 respectively, `sc, mc` are the single and multi-combination training games respectively. `train` samples from both `sc` and `mc` games. `val` are the validation games and features the same movement dynamics as those in `train`. `test` games feature new movement combinations. `test-se` is the state-estimation version of the test games that feature the same movement dynamics as those in `train`. For more details refer to the [paper](https://arxiv.org/abs/2101.07393).
 
 ## Miscellaneous
 If there are issues with the installation, try using `Python 3.7` (later versions may cause problems). Note that only tools for running the models are provided, there are no tools to train the models (yet). Negation and neutral entities have also not been implemented.
