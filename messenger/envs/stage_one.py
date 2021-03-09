@@ -10,13 +10,11 @@ from pathlib import Path
 
 import numpy as np
 
-from messenger.envs.base import MessengerEnv
+from messenger.envs.base import MessengerEnv, Position
 import messenger.envs.config as config
 from messenger.envs.manual import TextManual
 from messenger.envs.utils import games_from_json
 
-# Positions of the entities
-Position = namedtuple('Position', ["x", "y"])
 
 # Used to track sprites in StageOne, where we do not use VGDL to handle sprites.
 Sprite = namedtuple("Sprite", ["name", "id", "position"])
@@ -48,7 +46,7 @@ class StageOne(MessengerEnv):
             game_split = "test"
             text_json_path = this_folder.joinpath("texts", "text_test.json")
         else:
-            raise Exception("Split: {split} not understood.")
+            raise Exception(f"Split: {split} not understood.")
 
         # list of Game namedtuples
         self.all_games = games_from_json(json_path=games_json_path, split=game_split)

@@ -13,54 +13,20 @@ import re
 # hack to stop PyGame from printing to stdout
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
-import numpy as np
 from vgdl.interfaces.gym import VGDLEnv
+import numpy as np
 
-from messenger.envs.base import MessengerEnv
-from messenger.envs.config import Entity
+from messenger.envs.base import MessengerEnv, Grid, Position
 import messenger.envs.config as config
 from messenger.envs.manual import TextManual
 from messenger.envs.utils import games_from_json
 
-# Positions of the entities
-Position = namedtuple('Position', ["x", "y"])
 
 # specifies the game variant (e.g. chasing enemy, fleeing message, stationary goal)
 # path is path to the vgdl domain file describing the variant.
 GameVariant = namedtuple(
     "GameVariant", ["path", "enemy_type", "message_type", "goal_type"]
 )
-
-
-class Grid:
-    '''
-    Class which makes it easier to build a grid observation from the dict state
-    return by VGDLEnv.
-    '''
-    def __init__(self, layers, shuffle=True):
-        '''
-        layers:
-            Each add() operation will place a separate entity in a new layer.
-            Thus, this is the upper-limit to the number of items to be added.
-        shuffle:
-            Place each items in a random order.
-        '''
-        self.grid = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH, layers))
-        self.order = list(range(layers)) # insertion order
-        if shuffle:
-            random.shuffle(self.order)
-        self.layers = layers
-        self.entity_count = 0
-
-    def add(self, entity:Entity, position:Position):
-        '''
-        Add entity entity and position position.
-        '''
-        assert self.entity_count < self.layers, \
-            f"Tried to add entity no. {self.entity_count} with {self.layers} layers."
-
-        self.grid[position.y, position.x, self.order[self.entity_count]] = entity.id
-        self.entity_count += 1
 
 
 class StageTwo(MessengerEnv):
