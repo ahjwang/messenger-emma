@@ -1,5 +1,8 @@
 import random
 import json
+from collections import namedtuple
+
+Descr = namedtuple("Description", ['entity', 'role', 'type'])
 
 class TextManual:
     '''
@@ -73,3 +76,64 @@ class TextManual:
             document = random.sample(document, len(document))
 
         return document
+
+    def get_document_plus(self, *args, **kwargs):
+        '''
+        Makes a document for Messenger using the specified parameters.
+
+        Parameters:
+        args: List of Descrip namedtuples
+        '''
+
+        document = []
+
+        for descrip in args:
+            document.append(
+                self.get_descriptor(
+                    entity=descrip.entity,
+                    role=descrip.role,
+                    entity_type=descrip.type,
+                    no_type_p=0,
+                    **kwargs
+                )
+            )
+
+        return document
+
+    def get_decoy_descriptor(self, entity, not_of_role, not_of_type, **kwargs):
+        '''
+        Get a description about the entity where the entity is not of role not_of_role
+        and not of type not_of_type
+        '''
+        possible_roles = [x for x in ('message', 'goal', 'enemy') if x != not_of_role]
+        random.shuffle(possible_roles)
+        selected_type = random.choice([x for x in ('chaser', 'fleeing', 'immovable') if x != not_of_type])
+
+        for role in possible_roles:
+            try:
+                return self.get_descriptor(
+                    entity=entity,
+                    role=role,
+                    entity_type=selected_type,
+                    no_type_p=0,
+                    **kwargs
+                )
+            except:
+                continue
+        raise Exception('decoy description with impossible constraints')
+
+
+if __name__ == "__main__":
+    # just some quick and dirty tests
+    from pathlib import Path
+    text_json = Path(__file__).parent.joinpath('texts', 'text_train.json')
+    manual = TextManual(json_path=text_json)
+    descriptions = (
+        Descr(entity="airplane", role='goal', type='chaser'),
+        Descr(entity="airplane", role='message', type='fleeing'),
+        Descr(entity="dog", role='enemy', type='immovable'),
+        Descr(entity="dog", role='goal', type='fleeing'),
+        Descr(entity="mage", role='goal', type='chaser'),
+        Descr(entity="mage", role='message', type='immovable'),
+    )
+    print(manual.get_document_plus(*descriptions))
