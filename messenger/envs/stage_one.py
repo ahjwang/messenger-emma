@@ -30,6 +30,7 @@ class StageOne(MessengerEnv):
         shuffle_obs:
             shuffle the observation including the text manual
         '''
+        super().__init__()
         self.message_prob = message_prob
         self.shuffle_obs = shuffle_obs
         this_folder = Path(__file__).parent
@@ -91,8 +92,8 @@ class StageOne(MessengerEnv):
         return manual
 
     def _get_obs(self):
-        entities = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH , 1))
-        avatar = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH , 1))
+        entities = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH, 1))
+        avatar = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH, 1))
         for sprite in (self.enemy, self.message, self.goal):
             entities[sprite.position.y, sprite.position.x, 0] = sprite.id
             
@@ -187,23 +188,24 @@ class StageOne(MessengerEnv):
 
     def step(self, action):
         self._move_avatar(action)
+        obs = self._get_obs()
         if self._overlap(self.avatar, self.enemy):
-            return None, -1.0, True, None  # state, reward, done, info
+            return obs, -1.0, True, None  # state, reward, done, info
         
         if self._overlap(self.avatar, self.message):
             if self.avatar.name == config.WITH_MESSAGE.name:
-                return None, -1.0, True, None
+                return obs, -1.0, True, None
             elif self.avatar.name == config.NO_MESSAGE.name:
-                return None, 1.0, True, None
+                return obs, 1.0, True, None
             else:
                 raise Exception("Unknown avatar name {avatar.name}")
             
         if self._overlap(self.avatar, self.goal):
             if self.avatar.name == config.WITH_MESSAGE.name:
-                return None, 1.0, True, None
+                return obs, 1.0, True, None
             elif self.avatar.name == config.NO_MESSAGE.name:
-                return None, -1.0, True, None
+                return obs, -1.0, True, None
             else:
                 raise Exception("Unknown avatar name {avatar.name}")
         
-        return self._get_obs(), 0.0, False, None
+        return obs, 0.0, False, None

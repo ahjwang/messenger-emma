@@ -41,27 +41,25 @@ class StageThree(MessengerEnv):
     disambiduation (e.g. chasing knight, vs immovable knight)
     '''
 
-    def __init__(self, split:str, shuffle_obs=True, full_obs=True, fuse_obs=True):
+    def __init__(self, split:str, shuffle_obs=True):
         super().__init__()
         self.shuffle_obs = shuffle_obs # shuffle the entity layers
-        self.full_obs = full_obs # return the full obs grid
-        self.fuse_obs = fuse_obs # return np.array instead of dict
 
         this_folder = Path(__file__).parent
         # Get the games and manual
         games_json_path = this_folder.joinpath("games.json")
         if "train" in split and "mc" in split: # multi-combination games
             game_split = "train_multi_comb"
-            text_json_path = this_folder.joinpath("texts", "train_s3.json")
+            text_json_path = this_folder.joinpath("texts", "text_train.json")
         elif "train" in split and "sc" in split: # single-combination games
             game_split = "train_single_comb"
-            text_json_path = this_folder.joinpath("texts", "train_s3.json")
+            text_json_path = this_folder.joinpath("texts", "text_train.json")
         elif "val" in split:
             game_split = "val"
-            text_json_path = this_folder.joinpath("texts", "val_s3.json")
+            text_json_path = this_folder.joinpath("texts", "text_val.json")
         elif "test" in split:
             game_split = "test"
-            text_json_path = this_folder.joinpath("texts", "test_s3.json")
+            text_json_path = this_folder.joinpath("texts", "text_test.json")
         else:
             raise Exception(f"Split: {split} not understood.")
 
@@ -146,17 +144,11 @@ class StageThree(MessengerEnv):
             avatar = config.WITH_MESSAGE
 
         else: # the avatar is not in observation, so is probably dead
-            if self.full_obs:
-                if self.fuse_obs:
-                    return np.concatenate((entity_locs.grid, avatar_locs.grid), axis=-1)
-                # return {"entities": entity_locs.grid, "avatar": avatar_locs.grid}
+            return {"entities": entity_locs.grid, "avatar": avatar_locs.grid}
 
         avatar_locs.add(avatar, avatar_pos) # if not dead, add it.
 
-        if self.full_obs:
-            if self.fuse_obs:
-                return np.concatenate((entity_locs.grid, avatar_locs.grid), axis=-1)
-            # return {"entities": entity_locs.grid, "avatar": avatar_locs.grid}
+        return {"entities": entity_locs.grid, "avatar": avatar_locs.grid}
 
 
     def reset(self, variant_id:int=None, **kwargs):
