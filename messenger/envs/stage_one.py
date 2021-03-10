@@ -21,14 +21,17 @@ Sprite = namedtuple("Sprite", ["name", "id", "position"])
 
 
 class StageOne(MessengerEnv):
-    def __init__(self, split, message_prob=0.2):
+    def __init__(self, split, message_prob=0.2, shuffle_obs=True):
         '''
         Stage one where objects are all immovable. Since the episode length is short and entities
         do not move, we do not use VGDL engine for efficiency.
         message_prob:
             the probability that the avatar starts with the message
+        shuffle_obs:
+            shuffle the observation including the text manual
         '''
         self.message_prob = message_prob
+        self.shuffle_obs = shuffle_obs
         this_folder = Path(__file__).parent
         
         # Get the games and manual
@@ -82,7 +85,10 @@ class StageOne(MessengerEnv):
         enemy_str = random.choice(self.descriptors[self.enemy.name]["enemy"])
         key_str = random.choice(self.descriptors[self.message.name]["message"])
         goal_str = random.choice(self.descriptors[self.goal.name]["goal"])
-        return [enemy_str, key_str, goal_str]
+        manual = [enemy_str, key_str, goal_str]
+        if self.shuffle_obs:
+            random.shuffle(manual)
+        return manual
 
     def _get_obs(self):
         entities = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH , 1))

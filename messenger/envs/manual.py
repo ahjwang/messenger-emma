@@ -33,7 +33,7 @@ class TextManual:
         else:
             return random.choice(self.descriptors[entity][role][entity_type])
 
-    def get_document(self, enemy, message, goal, shuffle=True, 
+    def get_document(self, enemy, message, goal, shuffle=False, 
                 enemy_type=None, message_type=None, goal_type=None,
                 append=False, delete=False, **kwargs):
         '''

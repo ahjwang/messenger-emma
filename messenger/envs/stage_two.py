@@ -178,6 +178,9 @@ class StageTwo(MessengerEnv):
             goal_type=variant.goal_type,
             **kwargs
         )
+
+        if self.shuffle_obs:
+            random.shuffle(manual)
             
         return self._convert_obs(vgdl_obs), manual
 
