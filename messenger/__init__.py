@@ -93,3 +93,95 @@ register(
         split="test_se",
     )
 )
+
+register(
+    id = "msgr-train-v3",
+    entry_point="messenger.envs:TwoEnvWrapper",
+    kwargs = dict(
+        stage=3,
+        split_1="train_mc",
+        split_2="train_sc",
+        prob_env_1=0.75,
+    )
+)
+
+register(
+    id = "msgr-train-sc-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="train_sc",
+    )
+)
+
+register(
+    id = "msgr-train-mc-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="train_mc",
+    )
+)
+
+
+register(
+    id = "msgr-val-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="val",
+    )
+)
+
+register(
+    id = "msgr-test-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="test",
+    )
+)
+
+register(
+    id = "msgr-train_noshuffle-v3",
+    entry_point="messenger.envs:TwoEnvWrapper",
+    kwargs = dict(
+        stage=3,
+        split_1="train_mc",
+        split_2="train_sc",
+        prob_env_1=0.75,
+        shuffle_obs=False,
+    )
+)
+
+register(
+    id = "msgr-train_noshuffle-sc-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="train_sc",
+        shuffle_obs=False,
+    )
+)
+
+register(
+    id = "msgr-train_noshuffle-mc-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="train_mc",
+        shuffle_obs=False,
+    )
+)
+
+register(
+    id = "msgr-val_noshuffle-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="val",
+        shuffle_obs=False,
+    )
+)
+
+register(
+    id = "msgr-test_noshuffle-v3",
+    entry_point="messenger.envs:StageThree",
+    kwargs = dict(
+        split="test",
+        shuffle_obs=False,
+    )
+)
