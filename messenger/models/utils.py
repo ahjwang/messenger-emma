@@ -90,6 +90,7 @@ class Encoder:
                         truncation=True,
                         truncation_strategy='do_not_truncate',
                         padding="max_length",
+                        pad_to_max_length=True, # for transformer version < 3
                         max_length=self.max_length
                         )
                     emb, _ = self.encoder(**self.tokens_to_device(tokens))
