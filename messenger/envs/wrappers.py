@@ -14,6 +14,7 @@ class TwoEnvWrapper(MessengerEnv):
     Switches between two Messenger environments
     '''
     def __init__(self, stage:int, split_1:str, split_2:str, prob_env_1=0.5, **kwargs):
+        super().__init__()
         if stage == 1:
             self.env_1 = StageOne(split=split_1, **kwargs)
             self.env_2 = StageOne(split=split_2, **kwargs)
