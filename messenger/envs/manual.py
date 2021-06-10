@@ -8,12 +8,11 @@ Descr = namedtuple("Description", ['entity', 'role', 'type'])
 
 class TextManual:
     '''
-    Temporary drop-in class with get_document() same as MessengerBaseTemplates
-    except use json of free-form text instead of templates.
-    TODO: Merge the free-form and template text classes.
+    Class which implements methods that allow environments to construct
+    text manuals for games in Messenger.
     '''
+    
     def __init__(self, json_path):
-        # TODO: code for json file verification
         with open(json_path, "r") as f:
             self.descriptors = json.load(f)
 
