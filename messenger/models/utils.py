@@ -84,16 +84,15 @@ class Encoder:
                 encoded.append(self.cache[sent])
             else: 
                 with torch.no_grad():
-                    tokens = self.tokenizer.batch_encode_plus(
-                        [sent],
+                    tokens = self.tokenizer(
+                        sent,
                         return_tensors="pt",
-                        truncation=True,
+                        truncation=False,
                         truncation_strategy='do_not_truncate',
                         padding="max_length",
-                        pad_to_max_length=True, # for transformer version < 3
                         max_length=self.max_length
-                        )
-                    emb, _ = self.encoder(**self.tokens_to_device(tokens))
+                    )
+                    emb = self.encoder(**self.tokens_to_device(tokens)).last_hidden_state
                 encoded.append(emb)
                 self.cache[sent] = emb
         return torch.cat(encoded, dim=0)
