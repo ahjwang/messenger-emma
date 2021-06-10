@@ -71,7 +71,7 @@ class StageThree(MessengerEnv):
         
         # get the file paths to possible starting states
         self.init_states = [
-            str(path) for path in vgdl_files.joinpath("init_states_10x10").glob("*.txt")
+            str(path) for path in vgdl_files.joinpath("init_states").glob("*.txt")
         ]
         # get all the game variants
         self.game_variants = [
