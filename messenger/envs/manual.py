@@ -2,6 +2,8 @@ import random
 import json
 from collections import namedtuple
 
+import messenger.envs.config as config
+
 Descr = namedtuple("Description", ['entity', 'role', 'type'])
 
 class TextManual:
@@ -15,7 +17,7 @@ class TextManual:
         with open(json_path, "r") as f:
             self.descriptors = json.load(f)
 
-    def get_descriptor(self, entity=None, role=None, entity_type=None, no_type_p=0.15):
+    def get_descriptor(self, entity, role, entity_type, no_type_p=0.15):
         '''
         Get a descriptor using the templates.
         Parameters:
@@ -62,12 +64,17 @@ class TextManual:
 
         if append:
             # choose an object not in {enemy, message, goal}
-            valid_objs = [obj.name for obj in defaults.NPCS if obj.name not in [enemy, message, goal]]
+            valid_objs = [obj.name for obj in config.NPCS if obj.name not in [enemy, message, goal]]
             rand_obj = random.choice(valid_objs)
             result = None
             while result is None:
                 try:
-                    result = self.get_descriptor(entity=rand_obj, **kwargs)
+                    result = self.get_descriptor(
+                        entity=rand_obj,
+                        role=random.choice(("enemy", "message", "goal")),
+                        entity_type=random.choice(("chaser", "fleeing", "immovable")),
+                        **kwargs
+                    )
                 except:
                     pass
             document.append(result)
