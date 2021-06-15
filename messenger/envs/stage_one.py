@@ -10,27 +10,29 @@ from pathlib import Path
 
 import numpy as np
 
-from messenger.envs.base import MessengerEnv
+from messenger.envs.base import MessengerEnv, Position
 import messenger.envs.config as config
 from messenger.envs.manual import TextManual
 from messenger.envs.utils import games_from_json
 
-# Positions of the entities
-Position = namedtuple('Position', ["x", "y"])
 
 # Used to track sprites in StageOne, where we do not use VGDL to handle sprites.
 Sprite = namedtuple("Sprite", ["name", "id", "position"])
 
 
 class StageOne(MessengerEnv):
-    def __init__(self, split, message_prob=0.2):
+    def __init__(self, split, message_prob=0.2, shuffle_obs=True):
         '''
         Stage one where objects are all immovable. Since the episode length is short and entities
         do not move, we do not use VGDL engine for efficiency.
         message_prob:
             the probability that the avatar starts with the message
+        shuffle_obs:
+            shuffle the observation including the text manual
         '''
+        super().__init__()
         self.message_prob = message_prob
+        self.shuffle_obs = shuffle_obs
         this_folder = Path(__file__).parent
         
         # Get the games and manual
@@ -48,7 +50,7 @@ class StageOne(MessengerEnv):
             game_split = "test"
             text_json_path = this_folder.joinpath("texts", "text_test.json")
         else:
-            raise Exception("Split: {split} not understood.")
+            raise Exception(f"Split: {split} not understood.")
 
         # list of Game namedtuples
         self.all_games = games_from_json(json_path=games_json_path, split=game_split)
@@ -84,11 +86,14 @@ class StageOne(MessengerEnv):
         enemy_str = random.choice(self.descriptors[self.enemy.name]["enemy"])
         key_str = random.choice(self.descriptors[self.message.name]["message"])
         goal_str = random.choice(self.descriptors[self.goal.name]["goal"])
-        return [enemy_str, key_str, goal_str]
+        manual = [enemy_str, key_str, goal_str]
+        if self.shuffle_obs:
+            random.shuffle(manual)
+        return manual
 
     def _get_obs(self):
-        entities = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH , 1))
-        avatar = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH , 1))
+        entities = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH, 1))
+        avatar = np.zeros((config.STATE_HEIGHT, config.STATE_WIDTH, 1))
         for sprite in (self.enemy, self.message, self.goal):
             entities[sprite.position.y, sprite.position.x, 0] = sprite.id
             
@@ -183,23 +188,24 @@ class StageOne(MessengerEnv):
 
     def step(self, action):
         self._move_avatar(action)
+        obs = self._get_obs()
         if self._overlap(self.avatar, self.enemy):
-            return None, -1.0, True, None  # state, reward, done, info
+            return obs, -1.0, True, None  # state, reward, done, info
         
         if self._overlap(self.avatar, self.message):
             if self.avatar.name == config.WITH_MESSAGE.name:
-                return None, -1.0, True, None
+                return obs, -1.0, True, None
             elif self.avatar.name == config.NO_MESSAGE.name:
-                return None, 1.0, True, None
+                return obs, 1.0, True, None
             else:
                 raise Exception("Unknown avatar name {avatar.name}")
             
         if self._overlap(self.avatar, self.goal):
             if self.avatar.name == config.WITH_MESSAGE.name:
-                return None, 1.0, True, None
+                return obs, 1.0, True, None
             elif self.avatar.name == config.NO_MESSAGE.name:
-                return None, -1.0, True, None
+                return obs, -1.0, True, None
             else:
                 raise Exception("Unknown avatar name {avatar.name}")
         
-        return self._get_obs(), 0.0, False, None
+        return obs, 0.0, False, None
