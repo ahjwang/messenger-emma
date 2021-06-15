@@ -15,6 +15,7 @@ pip install -e 'messenger-emma[models]'
 To instantiate a gym environment, use:
 ```python
 import gym
+import messenger
 env = gym.make('msgr-train-v2')
 obs, manual = env.reset()
 obs, reward, done, info = env.step(<some action>)
