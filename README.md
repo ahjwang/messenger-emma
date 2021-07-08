@@ -20,12 +20,16 @@ env = gym.make('msgr-train-v2')
 obs, manual = env.reset()
 obs, reward, done, info = env.step(<some action>)
 ```
-Here `<some action>` should be an integer between 0 and 4 corresponding to the actions `up`,`down`,`left`,`right`,`stay`. Notice that in contrast to standard gym, `env.reset()` returns a tuple of an observation and the text manual sampled for the current episode. If you have installed the model dependencies, you can use our model `EMMA` just as you would any `torch` model. A full example of using `EMMA` with our environment can be found in the `run.py` file. You can run it with:
+Here `<some action>` should be an integer between 0 and 4 corresponding to the actions `up`,`down`,`left`,`right`,`stay`. Notice that in contrast to standard gym, `env.reset()` returns a tuple of an observation and the text manual sampled for the current episode. If you have installed the model dependencies, you can use our model `EMMA` just as you would any `torch` model. A full example of using `EMMA` with our environment can be found in the `run.py` file. To download model weights run the following:
 ```
-python run.py --model_state pretrained/s2_sm/sm_s2_1_max.pth --env_id msgr-train-v2
+wget -O pretrained.zip https://www.dropbox.com/s/ne8yglb0765f111/pretrained.zip?raw=1
+unzip pretrained.zip
 ```
-
-Pretrained model weights are available in the `pretrained` folder. Please make sure that you load the correct weights for the correct environment stages. (`v1` environments should use model states in the `pretrained/s1_sm` folder and `v2` environments from the `pretrained/s2_sm` folder).
+This will put pretrained model weights in a folder called `pretrained`. You can run EMMA using these weights with:
+```
+python run.py --model_state pretrained/emma_s2_1.pth --env_id msgr-train-v2
+```
+ Please make sure that you load the correct weights for the correct environment stages. (`v1`, `v2`, `v3` environments should use model states with `s1`, `s2`, `s3` in the filename respectively).
 
 ### Environment IDs
 Environment ids follow the following format: `msgr-{split}-v{stage}`. There are three stages (1,2,3) and the splits include: `train`, `val`, `test`, as well as `train-sc` and `train-mc` for the single and multi-combination subsets of the training games. The split `test-se` is the state estimation version of the test environment, and is only available on stage 2.
@@ -61,8 +65,8 @@ The gym environment does not implemenet any sort of step limit or step penalty. 
 
 Due to the noisy nature of data collected from human writers, sometimes the manual may contain a description that provides no useful information. In most cases, the correct course of action can still be deduced by reading the other descriptions.
 
-## Major Changes
-- July 07 2021: Added script for playing Messenger in the terminal.
+## Changes
+- July 07 2021: Added script for playing Messenger in the terminal. Removed pretrained weights from repo and moved it to Dropbox.
 - June 15 2021: We have introduced a stage 3, and `msgr-test-v2` which includes more movement combinations for a more comprehensive test. Other stages/splits should be identical. If you cloned before this `8f6bd5c` commit, we recommend getting the latest version.
 
 ## Miscellaneous
