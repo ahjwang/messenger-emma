@@ -1,7 +1,6 @@
 # Messenger-EMMA
 Implementation of the Messenger environment and EMMA model from the ICML 2021 paper: [Grounding Language to Entities and Dynamics for Generalization in Reinforcement Learning](https://arxiv.org/abs/2101.07393). 
 
-
 ## Installation
 Currently, only local installations are supported. Clone the repository and run:
 ```
@@ -72,3 +71,28 @@ Due to the noisy nature of data collected from human writers, sometimes the manu
 
 ## Miscellaneous
 If there are issues with the installation, try using `Python 3.7`. The model is tested working with `transformers` version 4.2.2. The license is MIT.
+
+Please use the following citation from [DBLP](https://dblp.org/rec/conf/icml/HanjieZN21.html?view=bibtex) (note author list and name changes from early arxiv versions).
+
+```
+@inproceedings{hanjie21grounding,
+  author    = {Austin W. Hanjie and
+               Victor Zhong and
+               Karthik Narasimhan},
+  editor    = {Marina Meila and
+               Tong Zhang},
+  title     = {Grounding Language to Entities and Dynamics for Generalization in
+               Reinforcement Learning},
+  booktitle = {Proceedings of the 38th International Conference on Machine Learning,
+               {ICML} 2021, 18-24 July 2021, Virtual Event},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {139},
+  pages     = {4051--4062},
+  publisher = {{PMLR}},
+  year      = {2021},
+  url       = {http://proceedings.mlr.press/v139/hanjie21a.html},
+  timestamp = {Wed, 14 Jul 2021 15:41:58 +0200},
+  biburl    = {https://dblp.org/rec/conf/icml/HanjieZN21.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
