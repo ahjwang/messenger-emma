@@ -1,6 +1,7 @@
 # Messenger-EMMA
 Implementation of the Messenger environment and EMMA model from the ICML 2021 paper: [Grounding Language to Entities and Dynamics for Generalization in Reinforcement Learning](https://arxiv.org/abs/2101.07393). 
 
+
 ## Installation
 Currently, only local installations are supported. Clone the repository and run:
 ```
