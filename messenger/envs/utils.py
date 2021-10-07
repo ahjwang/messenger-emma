@@ -4,7 +4,7 @@ Utilites for the environments
 
 import json
 from pathlib import Path
-from . import config
+from .config import NPCS, Game
 
 def get_entity(name:str):
     '''
