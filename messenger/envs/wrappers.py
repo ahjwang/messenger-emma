@@ -3,10 +3,10 @@ Implements wrappers on top of the basic messenger environments
 '''
 import random
 
-from messenger.envs.base import MessengerEnv
-from messenger.envs.stage_one import StageOne
-from messenger.envs.stage_two import StageTwo
-from messenger.envs.stage_three import StageThree
+from .base import MessengerEnv
+from .stage_one import StageOne
+from .stage_two import StageTwo
+from .stage_three import StageThree
 
 
 class TwoEnvWrapper(MessengerEnv):

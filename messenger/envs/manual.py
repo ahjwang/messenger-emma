@@ -2,7 +2,7 @@ import random
 import json
 from collections import namedtuple
 
-import messenger.envs.config as config
+from . import config
 
 Descr = namedtuple("Description", ['entity', 'role', 'type'])
 

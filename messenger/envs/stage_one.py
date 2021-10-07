@@ -10,10 +10,10 @@ from pathlib import Path
 
 import numpy as np
 
-from messenger.envs.base import MessengerEnv, Position
-import messenger.envs.config as config
-from messenger.envs.manual import TextManual
-from messenger.envs.utils import games_from_json
+from.base import MessengerEnv, Position
+from . import config
+from .manual import TextManual
+from .utils import games_from_json
 
 
 # Used to track sprites in StageOne, where we do not use VGDL to handle sprites.

@@ -3,7 +3,6 @@ Classes that follows a gym-like interface and implements stage two of the Messen
 environment.
 '''
 
-import json
 import random
 from collections import namedtuple
 from pathlib import Path
@@ -14,12 +13,11 @@ import re
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 from vgdl.interfaces.gym import VGDLEnv
-import numpy as np
 
-from messenger.envs.base import MessengerEnv, Grid, Position
-import messenger.envs.config as config
-from messenger.envs.manual import TextManual
-from messenger.envs.utils import games_from_json
+from .base import MessengerEnv, Grid, Position
+from . import config
+from .manual import TextManual
+from .utils import games_from_json
 
 
 # specifies the game variant (e.g. chasing enemy, fleeing message, stationary goal)

@@ -5,8 +5,8 @@ import gym
 from gym import spaces
 import numpy as np
 
-import messenger.envs.config as config
-from messenger.envs.config import Entity
+from . import config
+from .config import Entity
 
 # Positions of the entities
 Position = namedtuple('Position', ["x", "y"])

@@ -3,7 +3,6 @@ Classes that follows a gym-like interface and implements stage three of the Mess
 environment.
 '''
 
-import json
 import random
 from collections import namedtuple
 from pathlib import Path
@@ -13,13 +12,12 @@ import re
 # hack to stop PyGame from printing to stdout
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
-import numpy as np
 from vgdl.interfaces.gym import VGDLEnv
 
-from messenger.envs.base import MessengerEnv, Grid, Position
-import messenger.envs.config as config
-from messenger.envs.manual import TextManual, Descr
-from messenger.envs.utils import games_from_json
+from .base import MessengerEnv, Grid, Position
+from . import config
+from .manual import TextManual, Descr
+from .utils import games_from_json
 
 
 # specifies the game variant path is path to the vgdl domain file describing the variant.

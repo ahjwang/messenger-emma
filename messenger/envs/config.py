@@ -3,9 +3,6 @@ Default config settings used in the envs. Changing the config settings here
 will have a global effect on the entire messenger package.
 '''
 
-import itertools
-from pathlib import Path
-import json
 from collections import namedtuple
 
 '''

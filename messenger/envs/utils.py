@@ -4,7 +4,7 @@ Utilites for the environments
 
 import json
 from pathlib import Path
-from messenger.envs.config import NPCS, Game
+from . import config
 
 def get_entity(name:str):
     '''
