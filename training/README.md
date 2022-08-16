@@ -1,8 +1,4 @@
 # Training EMMA on Messenger
-Note: code checks in progress, code subject to change.
-- [x] Stage 1
-- [x] Stage 2
-- [ ] Stage 3
 
 ## Setup
 The conda environment we use is provided in `env.yml`. You can clone it using:
@@ -19,3 +15,6 @@ conda activate msgr-emma
 bash stage_1.sh
 ```
 Note: We run EMMA on stage 1 for 12 hours, but this is to make comparisons with baselines that take this long to converge. In general EMMA should converge much faster than this.
+
+## Results
+You can see the training curves generated using the provided scripts at [this wandb project](https://wandb.ai/ahjwang/msgr-emma?workspace=user-ahjwang)
