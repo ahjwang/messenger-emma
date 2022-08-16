@@ -31,6 +31,10 @@ python run.py --model_state pretrained/emma_s2_1.pth --env_id msgr-train-v2
 ```
  Please make sure that you load the correct weights for the correct environment stages. (`v1`, `v2`, `v3` environments should use model states with `s1`, `s2`, `s3` in the filename respectively).
 
+ ### Training
+
+Training scripts and usage information is provided in the folder [training](./training/)
+
 ### Environment IDs
 Environment ids follow the following format: `msgr-{split}-v{stage}`. There are three stages (1,2,3) and the splits include: `train`, `val`, `test`, as well as `train-sc` and `train-mc` for the single and multi-combination subsets of the training games. The split `test-se` is the state estimation version of the test environment, and is only available on stage 2.
 
