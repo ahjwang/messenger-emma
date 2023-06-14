@@ -29,14 +29,14 @@ This will put pretrained model weights in a folder called `pretrained`. You can 
 ```
 python run.py --model_state pretrained/emma_s2_1.pth --env_id msgr-train-v2
 ```
- Please make sure that you load the correct weights for the correct environment stages. (`v1`, `v2`, `v3` environments should use model states with `s1`, `s2`, `s3` in the filename respectively).
+ Please make sure that you load the correct weights for the correct environment stages. `v1`, `v2`, `v3` environments should use model states with `s1`, `s2`, `s3` in the filename respectively.
 
  ### Training
 
 Training scripts and usage information is provided in the folder [training](./training/)
 
 ### Environment IDs
-Environment ids follow the following format: `msgr-{split}-v{stage}`. There are three stages (1,2,3) and the splits include: `train`, `val`, `test`, as well as `train-sc` and `train-mc` for the single and multi-combination subsets of the training games. The split `test-se` is the state estimation version of the test environment, and is only available on stage 2.
+Environment ids follow the following format: `msgr-{split}-v{stage}`. There are three stages (1,2,3) and the splits include: `train`, `val`, `test`, as well as `train-sc` and `train-mc` for the single and multi-combination subsets of the training games. The split `test-se` is the state estimation version of the test environment, and is only available on stage 2. Please ignore any warnings from `gym` telling you to "upgrade to v3".
 
 ### Human Play
 To get a better sense of what Messenger is like, you can play it in the terminal assuming you have installed the environment. Specify the `--env_id` to the gym id you want to play:
@@ -74,7 +74,7 @@ Due to the noisy nature of data collected from human writers, sometimes the manu
 - June 15 2021: We have introduced a stage 3, and `msgr-test-v2` which includes more movement combinations for a more comprehensive test. Other stages/splits should be identical. If you cloned before this `8f6bd5c` commit, we recommend getting the latest version.
 
 ## Miscellaneous
-If there are issues with the installation, try using `Python 3.7`. The model is tested working with `transformers` version 4.2.2. The license is MIT.
+If there are issues with the installation, try using `Python 3.7`. The model is tested working with `transformers` version `4.2.2`. The license is MIT. If you get an error with `gym` try downgrading `gym` to `0.22.0` or lower.
 
 Please use the following citation from [DBLP](https://dblp.org/rec/conf/icml/HanjieZN21.html?view=bibtex) (note author list and name changes from early arxiv versions).
 
